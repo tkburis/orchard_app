@@ -59,6 +59,6 @@ def create_database(app):
             #             longitude=0.2731037509473378)
             # db.session.add(tree3)
 
-            admin_user = User(username='admin', password=generate_password_hash('admin'))
+            admin_user = User(username='admin', password=generate_password_hash(environ.get('ADMIN_PW')))
             db.session.add(admin_user)
             db.session.commit()
