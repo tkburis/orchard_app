@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="mb-3 p-5 border border-5">
+    <form method="POST" class="needs-validation" novalidate>
+        <h3 class="mb-3">Login</h3>
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input
+                type="text"
+                class="form-control"
+                name="username"
+                placeholder="Enter username"
+                required
+            />
+        </div>
+        <div class="mb-3">
+            <label for="species" class="form-label">Password</label>
+            <input
+                type="password"
+                class="form-control"
+                name="password"
+                placeholder="Enter password"
+                required
+            />
+        </div>
+        <div align="center">
+            <button type="submit" class="btn btn-primary">Login</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

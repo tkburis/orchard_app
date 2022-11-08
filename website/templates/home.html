@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="mb-3">
+    <form method="POST" class="needs-validation" novalidate>
+        <h3 class="mb-3">Search nearest tree</h3>
+        <div class="input-group mb-3">
+            <button class="btn btn-outline-secondary" type="button" id="coords" onClick="getCoords()">Get coordinates</button>
+            <input type="number" aria-label="Latitude" placeholder="Latitude" class="form-control" id="coordLat" name="latitude" min="-90" max="90" step="any" required>
+            <input type="number" aria-label="Longitude" placeholder="Longitude" class="form-control" id="coordLong" name="longitude" min="-180" max="180" step="any" required>
+            <div class="invalid-feedback">
+                Please <b>'Get coordinates'</b> or enter valid coordinates before submitting.
+            </div>
+        </div>
+        <div align="center">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
+</div>
+
+<div class="mb-3">
+    {% if search_result %}
+    <table class="table">
+        <tbody>
+            <tr>
+                <th scope="row">ID</th>
+                <td>{{search_result.id}}</td>
+            </tr>
+            <tr>
+                <th scope="row">Year planted</th>
+                <td>{{search_result.year_planted}}</td>
+            </tr>
+            <tr>
+                <th scope="row">Species</th>
+                <td>{{search_result.species}}</td>
+            </tr>
+            <tr>
+                <th scope="row">Latitude</th>
+                <td>{{search_result.latitude}}</td>
+            </tr>
+            <tr>
+                <th scope="row">Longitude</th>
+                <td>{{search_result.longitude}}</td>
+            </tr>
+        </tbody>
+    </table>
+    {% endif %}
+</div>
+
+{% endblock %}
