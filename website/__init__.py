@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from werkzeug.security import generate_password_hash
+from os.path import join, dirname, abspath, exists
 from os import path, environ
 
 db = SQLAlchemy()
@@ -37,7 +38,8 @@ def create_app():
 
 def create_database(app):
     from .models import Tree, User
-    if not path.exists(f'./instance/{DB_NAME}'):
+    db_path = join(dirname(dirname(abspath(__file__))), 'instance', DB_NAME)
+    if not exists(db_path):
         with app.app_context():
             db.create_all()
             print('Database created')
