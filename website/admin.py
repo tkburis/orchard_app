@@ -10,23 +10,21 @@ admin = Blueprint('admin', __name__)
 @admin.route('/', methods=['GET', 'POST'])
 @login_required
 def admin_page():
+    keys = Tree.__table__.columns.keys()
     if request.method == 'POST':
-        year_planted = request.form.get('yearPlanted')
-        species = request.form.get('species')
-        latitude = request.form.get('latitude')
-        longitude = request.form.get('longitude')
+        form_data = {key: request.form.get(key) for key in keys}
         
-        new_tree = Tree(year_planted=year_planted,
-                        species=species,
-                        latitude=latitude,
-                        longitude=longitude)
+        new_tree = Tree(**form_data)
         
         db.session.add(new_tree)
         db.session.commit()
         flash('Tree added', category='success')
 
     all_trees = Tree.query.all()
-    return render_template('admin.html', all_trees=all_trees, current_user=current_user)
+    return render_template('admin.html',
+                            all_trees=all_trees,
+                            keys=keys,
+                            current_user=current_user)
 
 @admin.route('/delete-tree', methods=['POST'])
 def delete_tree():

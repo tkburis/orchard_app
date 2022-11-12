@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from werkzeug.security import generate_password_hash
 from os.path import join, dirname, abspath, exists
-from os import path, environ
+from os import environ
 
 db = SQLAlchemy()
 DB_NAME = environ.get('DB_NAME')
@@ -33,7 +33,7 @@ def create_app():
     @login_manager.user_loader
     def load_user(id):
         return User.query.get(int(id))
-
+    
     return app
 
 def create_database(app):
@@ -43,23 +43,21 @@ def create_database(app):
         with app.app_context():
             db.create_all()
             print('Database created')
-        
+
             # TODO: delete this
-            # tree1 = Tree(year_planted=2006,
-            #             species='Species #1',
-            #             latitude=51.20450568383156,
-            #             longitude=0.27311582088819875)
-            # db.session.add(tree1)
-            # tree2 = Tree(year_planted=2004,
-            #             species='Species #2',
-            #             latitude=51.204535513015905,
-            #             longitude=0.27316745341299326)
-            # db.session.add(tree2)
-            # tree3 = Tree(year_planted=2015,
-            #             species='Species #3',
-            #             latitude=51.20457626553227,
-            #             longitude=0.2731037509473378)
-            # db.session.add(tree3)
+            tree1 = Tree(tree='Apple',
+                        tree_type='Eat',
+                        variety='Adams Pearmain',
+                        root_stock='M25',
+                        flower_date=9,
+                        pick_month='October',
+                        planted='February 2009',
+                        position='14',
+                        season_of_use='November - March',
+                        dedication='Marcus Scaramanga',
+                        latitude=51.20450568383156,
+                        longitude=0.27311582088819875)
+            db.session.add(tree1)
 
             admin_user = User(username='admin', password=generate_password_hash(environ.get('ADMIN_PW')))
             db.session.add(admin_user)

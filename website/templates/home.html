@@ -24,26 +24,12 @@
     {% if search_result %}
     <table class="table">
         <tbody>
+            {% for key in keys %}
             <tr>
-                <th scope="row">ID</th>
-                <td>{{search_result.id}}</td>
+                <th scope="row">{{key}}</th>
+                <td>{{search_result[key]}}</td>
             </tr>
-            <tr>
-                <th scope="row">Year planted</th>
-                <td>{{search_result.year_planted}}</td>
-            </tr>
-            <tr>
-                <th scope="row">Species</th>
-                <td>{{search_result.species}}</td>
-            </tr>
-            <tr>
-                <th scope="row">Latitude</th>
-                <td>{{search_result.latitude}}</td>
-            </tr>
-            <tr>
-                <th scope="row">Longitude</th>
-                <td>{{search_result.longitude}}</td>
-            </tr>
+            {% endfor %}
         </tbody>
     </table>
     {% endif %}

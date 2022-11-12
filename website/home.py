@@ -8,9 +8,13 @@ home = Blueprint('home', __name__)
 @home.route('/', methods=['GET', 'POST'])
 def homepage():
     search_result = None
+    keys = Tree.__table__.columns.keys()
     if request.method == 'POST':
         user_lat = float(request.form.get('latitude'))
         user_long = float(request.form.get('longitude'))
         search_result = get_nearest_tree((user_lat, user_long))
-    return render_template('home.html', search_result=search_result, current_user=current_user)
+    return render_template('home.html',
+                            search_result=search_result,
+                            keys=keys,
+                            current_user=current_user)
 

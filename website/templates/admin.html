@@ -8,22 +8,22 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Year planted</th>
-                <th scope="col">Species</th>
-                <th scope="col">Latitude</th>
-                <th scope="col">Longitude</th>
+                {% for key in keys %}
+                <th scope="col">{{key}}</th>
+                {% endfor %}
                 <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
             {% for tree in all_trees %}
             <tr>
-                <th scope="row">{{tree.id}}</th>
-                <td>{{tree.year_planted}}</td>
-                <td>{{tree.species}}</td>
-                <td>{{tree.latitude}}</td>
-                <td>{{tree.longitude}}</td>
+                {% for key in keys %}
+                {% if key == "id" %}
+                <th scope="row">{{tree[key]}}</th>
+                {% else %}
+                <td>{{tree[key]}}</td>
+                {% endif %}
+                {% endfor %}
                 <td>
                     <button type="button" class="btn btn-outline-danger" onClick="deleteTree({{tree.id}})">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
@@ -41,27 +41,20 @@
 <div class="mb-3 p-5 border border-5">
     <form method="POST" class="needs-validation" novalidate>
         <h3 class="mb-3">Add Tree</h3>
+        {% for key in keys %}
+        {% if key != 'id' and key != 'latitude' and key != 'longitude' %}
         <div class="mb-3">
-            <label for="yearPlanted" class="form-label">Year planted</label>
-            <input
-                type="number"
-                class="form-control"
-                name="yearPlanted"
-                placeholder="Enter year planted"
-                step="1"
-                required
-            />
-        </div>
-        <div class="mb-3">
-            <label for="species" class="form-label">Species</label>
+            <label for="{{key}}" class="form-label">{{key}}</label>
             <input
                 type="text"
                 class="form-control"
-                name="species"
-                placeholder="Enter species"
+                name="{{key}}"
+                placeholder="Enter {{key}}"
                 required
             />
         </div>
+        {% endif %}
+        {% endfor %}
         <div class="mb-3">
             <label class="form-label">Coordinates</label>
             <div class="input-group">
