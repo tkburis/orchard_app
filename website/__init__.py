@@ -62,3 +62,4 @@ def create_database(app):
             admin_user = User(username='admin', password=generate_password_hash(environ.get('ADMIN_PW')))
             db.session.add(admin_user)
             db.session.commit()
+            
