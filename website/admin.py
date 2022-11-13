@@ -15,6 +15,9 @@ def trees():
     
     if request.method == 'POST':
         form_data = request.form.to_dict()
+        for k in form_data:
+            if not form_data[k]:
+                form_data[k] = None
         form_type = form_data.pop('type')
         
         if form_type == 'edit':
@@ -22,10 +25,9 @@ def trees():
             tree_obj = Tree.query.get(tree_id)
             
             for k, v in form_data.items():
-                if v != '':
-                    if k == 'variety_name':
-                        add_variety(v)
-                    setattr(tree_obj, k, v)
+                if k == 'variety_name' and v:
+                    add_variety(v)
+                setattr(tree_obj, k, v)
             db.session.commit()
             flash('Tree edited', category='success')
             
@@ -60,16 +62,19 @@ def varieties():
     
     if request.method == 'POST':
         form_data = request.form.to_dict()
+        for k in form_data:
+            if not form_data[k]:
+                form_data[k] = None
+
         variety_id = form_data.pop('id')
         variety_data = {}
         char_data = {}
         
         for k, v in form_data.items():
-            if v != '':
-                if k.startswith('char_'):
-                    char_data[k] = v
-                else:
-                    variety_data[k] = v
+            if k.startswith('char_'):
+                char_data[k] = v
+            else:
+                variety_data[k] = v
 
         variety_obj = Variety.query.get(variety_id)
         for k, v in variety_data.items():
@@ -97,7 +102,7 @@ def delete_variety():
         else:
             db.session.delete(variety_obj)
             db.session.commit()
-            flash('Tree deleted', category='success')
+            flash('Variety deleted', category='success')
     return jsonify({})
 
 @admin_bp.route('/login', methods=['GET', 'POST'])

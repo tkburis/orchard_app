@@ -10,6 +10,7 @@
             <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Name</th>
+                <th scope="col"># trees</th>
                 <th scope="col">Edit</th>
                 <th scope="col">Delete</th>
             </tr>
@@ -19,6 +20,7 @@
             <tr>
                 <th scope="row">{{variety['id']}}</th>
                 <td>{{variety['name']}}</td>
+                <td>{{variety['trees']|length}}</td>
                 <td>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editVarietyModal{{variety['id']}}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
@@ -36,8 +38,18 @@
                                     <form method="POST" class="needs-validation" id="editVarietyForm{{variety['id']}}" novalidate>
                                         <h3 class="mb-3">Variety factfile</h3>
                                         <input type="hidden" name="id" value="{{variety['id']}}" />
+                                        <div class="mb-3">
+                                            <label for="name" class="form-label">name</label>
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                name="name"
+                                                value="{{variety['name']}}"
+                                                disabled
+                                            />
+                                        </div>
                                         {% for key in variety_keys %}
-                                        {% if key != 'id' and key != 'characteristics_id' %}
+                                        {% if key != 'id' and key != 'name' and key != 'characteristics_id' %}
                                         <div class="mb-3">
                                             <label for="{{key}}" class="form-label">{{key}}</label>
                                             <textarea

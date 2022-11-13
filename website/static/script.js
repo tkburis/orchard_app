@@ -25,7 +25,7 @@ function deleteTree(treeId) {
         method: 'POST',
         body: JSON.stringify({treeId: treeId})
     }).then((_res) => {
-        window.location.href = "/admin";
+        window.location.href = "/admin/trees";
     });
 }
 
