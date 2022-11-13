@@ -1,19 +1,19 @@
-function getCoords() {
+function getCoords(id = "") {
     const options = {
         enableHighAccuracy: true,
         timeout: Infinity,
         maximumAge: 0
     }
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(getSuccess, getError, options)
+        navigator.geolocation.getCurrentPosition(function(pos){getSuccess(pos, id)}, getError, options)
     } else {
         alert("Geolocation is not supported by your browser")
     }
 }
 
-function getSuccess(pos) {
-    document.getElementById("coordLat").value = pos.coords.latitude
-    document.getElementById("coordLong").value = pos.coords.longitude
+function getSuccess(pos, id) {
+    document.getElementById("coordLat" + id).value = pos.coords.latitude
+    document.getElementById("coordLong" + id).value = pos.coords.longitude
 }
 
 function getError() {

@@ -60,9 +60,9 @@
                                         <div class="mb-3">
                                             <label class="form-label">Coordinates</label>
                                             <div class="input-group">
-                                                <button class="btn btn-outline-secondary" type="button" id="coords" onClick="getCoords()">Get coordinates</button>
-                                                <input type="number" aria-label="Latitude" placeholder="Latitude" class="form-control" id="coordLat" name="latitude" min="-90" max="90" step="any">
-                                                <input type="number" aria-label="Longitude" placeholder="Longitude" class="form-control" id="coordLong" name="longitude" min="-180" max="180" step="any">
+                                                <button class="btn btn-outline-secondary" type="button" id="coords" onClick="getCoords({{tree['id']}})">Get coordinates</button>
+                                                <input type="number" aria-label="Latitude" placeholder="Latitude" class="form-control" id="coordLat{{tree['id']}}" name="latitude" min="-90" max="90" step="any">
+                                                <input type="number" aria-label="Longitude" placeholder="Longitude" class="form-control" id="coordLong{{tree['id']}}" name="longitude" min="-180" max="180" step="any">
                                                 <div class="invalid-feedback">
                                                     Please <b>'Get coordinates'</b> or enter valid coordinates before submitting.
                                                 </div>
