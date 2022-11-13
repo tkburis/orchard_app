@@ -20,9 +20,15 @@ def create_app():
 
     from .home import home_bp
     from .admin import admin_bp
+    from .factfile import factfile_bp
 
     app.register_blueprint(home_bp, url_prefix='/')
     app.register_blueprint(admin_bp, url_prefix='/admin/')
+    app.register_blueprint(factfile_bp, url_prefix='/variety/')
+    
+    from .errors import page_not_found
+    
+    app.register_error_handler(404, page_not_found)
 
     from .models import User
 
@@ -37,7 +43,7 @@ def create_app():
     return app
 
 def create_database(app):
-    from .models import Tree, User
+    from .models import Tree, User, Variety, Characteristics
     db_path = join(dirname(dirname(abspath(__file__))), 'instance', DB_NAME)
     if not exists(db_path):
         with app.app_context():
@@ -48,7 +54,7 @@ def create_database(app):
             from .util import add_tree
             add_tree(tree='Apple',
                         tree_type='Eat',
-                        variety='Adams Pearmain',
+                        variety_name='Adams Pearmain',
                         root_stock='M25',
                         flower_date=9,
                         pick_month='October',
@@ -58,11 +64,15 @@ def create_database(app):
                         dedication='Marcus Scaramanga',
                         latitude=51.20450568383156,
                         longitude=0.27311582088819875)
-            add_tree(variety='Some other variety')
-            add_tree(variety='Adams Pearmain')
-            add_tree(variety='Some other variety')
-
+            add_tree(variety_name='Some other variety')
+            add_tree(variety_name='Adams Pearmain')
+            add_tree(variety_name='Some other variety')
+            
             admin_user = User(username='admin', password=generate_password_hash(environ.get('ADMIN_PW')))
             db.session.add(admin_user)
             db.session.commit()
+            
+            # TODO: delete this
+            v = Variety.query.filter_by(name='Adams Pearmain').first()
+            v.characteristics.use = 'Dessert'
             

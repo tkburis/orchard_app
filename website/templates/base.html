@@ -27,12 +27,19 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/admin">Admin</a>
-                        </li>
                         {% if current_user.is_authenticated %}
                         <li class="nav-item">
+                            <a class="nav-link" href="/admin/trees">Trees</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/varieties">Varieties</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="/admin/logout">Logout</a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/login">Login</a>
                         </li>
                         {% endif %}
                     </ul>

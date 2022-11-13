@@ -1,4 +1,4 @@
-from .models import Tree, Variety
+from .models import Tree, Variety, Characteristics
 from . import db
 from geopy.distance import distance
 
@@ -16,21 +16,19 @@ def get_nearest_tree(user_coords):
     
     return min(distances, key=distances.get)
 
-def get_or_create(model, **kwargs):
-    instance = model.query.filter_by(**kwargs).first()
-    if instance:
-        return instance
-    else:
-        instance = model(**kwargs)
+# adds new variety if does not exist already
+def add_variety(name):
+    instance = Variety.query.filter_by(name=name).first()
+    if not instance:
+        char = Characteristics()
+        instance = Variety(name=name, characteristics=char)
         db.session.add(instance)
         db.session.commit()
-        return instance
 
 def add_tree(**kwargs):
-    if 'variety' in kwargs:
-        variety_req = kwargs['variety']
-        variety = get_or_create(Variety, name=variety_req)
-        kwargs['variety_id'] = variety.id
+    if 'variety_name' in kwargs:
+        variety_req = kwargs['variety_name']
+        add_variety(variety_req)
     tree = Tree(**kwargs)
     db.session.add(tree)
     db.session.commit()

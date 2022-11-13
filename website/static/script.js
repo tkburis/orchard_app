@@ -29,6 +29,15 @@ function deleteTree(treeId) {
     });
 }
 
+function deleteVariety(varietyId) {
+    fetch('/admin/delete-variety', {
+        method: 'POST',
+        body: JSON.stringify({varietyId: varietyId})
+    }).then((_res) => {
+        window.location.href = "/admin/varieties";
+    });
+}
+
 // Form validation
 (() => {
     'use strict'
