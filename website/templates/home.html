@@ -35,6 +35,7 @@
     {% endif %}
 </div>
 
+{% if all_varieties %}
 <div class="mb-3">
     <h3 class="mb-3">Variety factfiles</h3>
     <ul class="list-group">
@@ -45,5 +46,6 @@
         {% endfor %}
     </ul>
 </div>
+{% endif %}
 
 {% endblock %}
