@@ -51,28 +51,28 @@ def create_database(app):
             print('Database created')
 
             # TODO: delete this
-            from .util import add_tree
-            add_tree(tree='Apple',
-                        tree_type='Eat',
-                        variety_name='Adams Pearmain',
-                        root_stock='M25',
-                        flower_date=9,
-                        pick_month='October',
-                        planted='February 2009',
-                        position='14',
-                        season_of_use='November - March',
-                        dedication='Marcus Scaramanga',
-                        latitude=51.20450568383156,
-                        longitude=0.27311582088819875)
-            add_tree(variety_name='Some other variety')
-            add_tree(variety_name='Adams Pearmain')
-            add_tree(variety_name='Some other variety')
+            # from .util import add_tree
+            # add_tree(tree='Apple',
+            #             tree_type='Eat',
+            #             variety_name='Adams Pearmain',
+            #             root_stock='M25',
+            #             flower_date=9,
+            #             pick_month='October',
+            #             planted='February 2009',
+            #             position='14',
+            #             season_of_use='November - March',
+            #             dedication='Marcus Scaramanga',
+            #             latitude=51.20450568383156,
+            #             longitude=0.27311582088819875)
+            # add_tree(variety_name='Some other variety')
+            # add_tree(variety_name='Adams Pearmain')
+            # add_tree(variety_name='Some other variety')
             
             admin_user = User(username='admin', password=generate_password_hash(environ.get('ADMIN_PW')))
             db.session.add(admin_user)
             db.session.commit()
             
             # TODO: delete this
-            v = Variety.query.filter_by(name='Adams Pearmain').first()
-            v.characteristics.use = 'Dessert'
+            # v = Variety.query.filter_by(name='Adams Pearmain').first()
+            # v.characteristics.use = 'Dessert'
             
