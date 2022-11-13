@@ -3,5 +3,25 @@
 {% block title %}{{variety['name']}}{% endblock %}
 
 {% block content %}
-
+<h1 align="center" class="mb-3">{{variety['name']}}</h1>
+{% if variety['scientific_name'] %}<p class="fst-italic mb-3">{{variety['scientific_name']}}</p>{% endif %}
+{% if variety['intro'] %}<p class="fst-normal mb-3">{{variety['intro']}}</p>{% endif %}
+{% if variety['origin'] %}<p class="fst-normal mb-3">{{variety['origin']}}</p>{% endif %}
+{% if variety['description'] %}<p class="fst-normal mb-3">{{variety['description']}}</p>{% endif %}
+<br />
+<h2>Main characteristics</h2>
+<div class="mb-3">
+    <table class="table">
+        <tbody>
+            {% for key in char_keys %}
+            {% if key != 'id' %}
+            <tr>
+                <th scope="row">{{key}}</th>
+                <td>{% if variety.characteristics[key] %}{{variety.characteristics[key]}}{% else %}-{% endif %}</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}

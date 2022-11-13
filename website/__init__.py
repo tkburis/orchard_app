@@ -24,7 +24,7 @@ def create_app():
 
     app.register_blueprint(home_bp, url_prefix='/')
     app.register_blueprint(admin_bp, url_prefix='/admin/')
-    app.register_blueprint(factfile_bp, url_prefix='/variety/')
+    app.register_blueprint(factfile_bp, url_prefix='/factfile/')
     
     from .errors import page_not_found
     

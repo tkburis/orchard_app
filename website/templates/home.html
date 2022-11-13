@@ -35,4 +35,15 @@
     {% endif %}
 </div>
 
+<div class="mb-3">
+    <h3 class="mb-3">Variety factfiles</h3>
+    <ul class="list-group">
+        {% for variety in all_varieties %}
+        <li class="list-group-item">
+            <a href="{{url_for('factfile_bp.factfile', variety_id=variety['id'])}}">{{variety['name']}}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
 {% endblock %}

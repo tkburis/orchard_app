@@ -62,6 +62,7 @@ def varieties():
     
     if request.method == 'POST':
         form_data = request.form.to_dict()
+
         for k in form_data:
             if not form_data[k]:
                 form_data[k] = None
@@ -72,10 +73,10 @@ def varieties():
         
         for k, v in form_data.items():
             if k.startswith('char_'):
-                char_data[k] = v
+                char_data[k.removeprefix('char_')] = v
             else:
                 variety_data[k] = v
-
+                
         variety_obj = Variety.query.get(variety_id)
         for k, v in variety_data.items():
             setattr(variety_obj, k, v)
@@ -88,7 +89,8 @@ def varieties():
     return render_template('varieties.html',
                            all_varieties=all_varieties,
                            variety_keys=variety_keys,
-                           char_keys=char_keys)
+                           char_keys=char_keys,
+                           current_user=current_user)
 
 @admin_bp.route('/delete-variety', methods=['POST'])
 @login_required
