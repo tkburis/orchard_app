@@ -25,25 +25,25 @@
                 {% endif %}
                 {% endfor %}
                 <td>
-                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{tree['id']}}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                             <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"></path>
                             <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"></path>
                         </svg>
                     </button>
-                    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="deleteModal{{tree['id']}}" tabindex="-1" aria-labelledby="deleteModalLabel{{tree['id']}}" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="deleteModalLabel">Confirm</h1>
+                                    <h1 class="modal-title fs-5" id="deleteModalLabel{{tree['id']}}">Confirm</h1>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                        Are you sure you want to delete the tree?
+                                        Are you sure you want to delete the tree (Tree ID = {{tree['id']}})?
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                    <button type="button" class="btn btn-danger" onClick="deleteTree({{tree.id}})">Delete</button>
+                                    <button type="button" class="btn btn-danger" onClick="deleteTree({{tree['id']}})">Delete</button>
                                 </div>
                             </div>
                         </div>
@@ -59,7 +59,7 @@
     <form method="POST" class="needs-validation" novalidate>
         <h3 class="mb-3">Add Tree</h3>
         {% for key in keys %}
-        {% if key != 'id' and key != 'latitude' and key != 'longitude' %}
+        {% if key != 'id' and key != 'latitude' and key != 'longitude' and key != 'variety_id' %}
         <div class="mb-3">
             <label for="{{key}}" class="form-label">{{key}}</label>
             <input
@@ -67,7 +67,6 @@
                 class="form-control"
                 name="{{key}}"
                 placeholder="Enter {{key}}"
-                required
             />
         </div>
         {% endif %}
@@ -76,8 +75,8 @@
             <label class="form-label">Coordinates</label>
             <div class="input-group">
                 <button class="btn btn-outline-secondary" type="button" id="coords" onClick="getCoords()">Get coordinates</button>
-                <input type="number" aria-label="Latitude" placeholder="Latitude" class="form-control" id="coordLat" name="latitude" min="-90" max="90" step="any" required>
-                <input type="number" aria-label="Longitude" placeholder="Longitude" class="form-control" id="coordLong" name="longitude" min="-180" max="180" step="any" required>
+                <input type="number" aria-label="Latitude" placeholder="Latitude" class="form-control" id="coordLat" name="latitude" min="-90" max="90" step="any">
+                <input type="number" aria-label="Longitude" placeholder="Longitude" class="form-control" id="coordLong" name="longitude" min="-180" max="180" step="any">
                 <div class="invalid-feedback">
                     Please <b>'Get coordinates'</b> or enter valid coordinates before submitting.
                 </div>

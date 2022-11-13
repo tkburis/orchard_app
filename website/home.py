@@ -3,10 +3,10 @@ from flask_login import current_user
 from .models import Tree
 from .util import get_nearest_tree
 
-home = Blueprint('home', __name__)
+home_bp = Blueprint('home_bp', __name__)
 
-@home.route('/', methods=['GET', 'POST'])
-def homepage():
+@home_bp.route('/', methods=['GET', 'POST'])
+def home():
     search_result = None
     keys = Tree.__table__.columns.keys()
     if request.method == 'POST':

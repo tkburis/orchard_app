@@ -4,20 +4,18 @@ from flask_login import login_user, login_required, logout_user, current_user
 import json
 from .models import Tree, User
 from . import db
+from .util import add_tree
 
-admin = Blueprint('admin', __name__)
+admin_bp = Blueprint('admin_bp', __name__)
 
-@admin.route('/', methods=['GET', 'POST'])
+@admin_bp.route('/', methods=['GET', 'POST'])
 @login_required
-def admin_page():
+def admin():
     keys = Tree.__table__.columns.keys()
     if request.method == 'POST':
-        form_data = {key: request.form.get(key) for key in keys}
+        form_data = {key: request.form.get(key) for key in keys if request.form.get(key) != ''}
         
-        new_tree = Tree(**form_data)
-        
-        db.session.add(new_tree)
-        db.session.commit()
+        add_tree(**form_data)
         flash('Tree added', category='success')
 
     all_trees = Tree.query.all()
@@ -26,7 +24,7 @@ def admin_page():
                             keys=keys,
                             current_user=current_user)
 
-@admin.route('/delete-tree', methods=['POST'])
+@admin_bp.route('/delete-tree', methods=['POST'])
 def delete_tree():
     tree_req = json.loads(request.data)
     tree_id = tree_req['treeId']
@@ -37,7 +35,7 @@ def delete_tree():
     flash('Tree deleted', category='success')
     return jsonify({})
 
-@admin.route('/login', methods=['GET', 'POST'])
+@admin_bp.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         username = request.form.get('username')
@@ -48,7 +46,7 @@ def login():
             if check_password_hash(user.password, password):
                 flash('Logged in', category='success')
                 login_user(user, remember=True)
-                return redirect(url_for('admin.admin_page'))
+                return redirect(url_for('admin_bp.admin'))
             else:
                 flash('Incorrect password', category='error')
         else:
@@ -56,9 +54,9 @@ def login():
 
     return render_template('login.html', current_user=current_user)
 
-@admin.route('/logout')
+@admin_bp.route('/logout')
 @login_required
 def logout():
     logout_user()
     flash('Logged out', category='success')
-    return redirect(url_for('home.homepage'))
+    return redirect(url_for('home_bp.home'))

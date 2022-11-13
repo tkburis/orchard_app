@@ -18,16 +18,16 @@ def create_app():
     db.init_app(app)
     create_database(app)
 
-    from .home import home
-    from .admin import admin
+    from .home import home_bp
+    from .admin import admin_bp
 
-    app.register_blueprint(home, url_prefix='/')
-    app.register_blueprint(admin, url_prefix='/admin/')
+    app.register_blueprint(home_bp, url_prefix='/')
+    app.register_blueprint(admin_bp, url_prefix='/admin/')
 
     from .models import User
 
     login_manager = LoginManager()
-    login_manager.login_view = 'admin.login'
+    login_manager.login_view = 'admin_bp.login'
     login_manager.init_app(app)
 
     @login_manager.user_loader
