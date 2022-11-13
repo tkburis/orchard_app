@@ -4,7 +4,7 @@ from geopy.distance import distance
 
 def get_nearest_tree(user_coords):
     all_trees = Tree.query.all()
-    if not all_trees:
+    if not all_trees or all([(tree.latitude, tree.longitude) == (None, None) for tree in all_trees]):
         return None
 
     distances = {}
