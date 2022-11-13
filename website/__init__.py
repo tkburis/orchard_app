@@ -45,7 +45,8 @@ def create_database(app):
             print('Database created')
 
             # TODO: delete this
-            tree1 = Tree(tree='Apple',
+            from .util import add_tree
+            add_tree(tree='Apple',
                         tree_type='Eat',
                         variety='Adams Pearmain',
                         root_stock='M25',
@@ -57,7 +58,9 @@ def create_database(app):
                         dedication='Marcus Scaramanga',
                         latitude=51.20450568383156,
                         longitude=0.27311582088819875)
-            db.session.add(tree1)
+            add_tree(variety='Some other variety')
+            add_tree(variety='Adams Pearmain')
+            add_tree(variety='Some other variety')
 
             admin_user = User(username='admin', password=generate_password_hash(environ.get('ADMIN_PW')))
             db.session.add(admin_user)
