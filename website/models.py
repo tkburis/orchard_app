@@ -25,6 +25,7 @@ class Variety(db.Model):
     intro = db.Column(db.String(10000), nullable=True)
     origin = db.Column(db.String(100), nullable=True)
     description = db.Column(db.String(10000), nullable=True)
+    picture_filename= db.Column(db.String(10), nullable=True)
     characteristics = db.relationship('Characteristics', back_populates='variety', cascade='all, delete', uselist=False)
     characteristics_id = db.Column(db.Integer, db.ForeignKey('characteristics.id'))
 

@@ -1,7 +1,10 @@
-from flask import Blueprint, render_template, request, jsonify, flash, redirect, url_for
+from flask import Blueprint, render_template, request, jsonify, flash, redirect, url_for, current_app
 from werkzeug.security import check_password_hash
+from werkzeug.utils import secure_filename
 from flask_login import login_user, login_required, logout_user, current_user
 import json
+import os
+
 from .models import Tree, User, Variety, Characteristics
 from . import db
 from .util import add_tree, add_variety
@@ -53,6 +56,10 @@ def delete_tree():
     flash('Tree deleted', category='success')
     return jsonify({})
 
+def allowed_file(filename):
+    return '.' in filename and \
+        filename.rsplit('.', 1)[1].lower() in ('png', 'jpg', 'jpeg')
+
 @admin_bp.route('/varieties', methods=['GET', 'POST'])
 @login_required
 def varieties():
@@ -82,6 +89,18 @@ def varieties():
             setattr(variety_obj, k, v)
         for k, v in char_data.items():
             setattr(variety_obj.characteristics, k, v)
+        
+        if 'picture' in request.files:
+            picture = request.files['picture']
+            print(picture)
+            if picture and allowed_file(picture.filename): 
+                filename = secure_filename(picture.filename)
+                extension = filename.rsplit('.', 1)[1].lower()
+                picture.save(os.path.join(current_app.config['UPLOAD_FOLDER'], f'{variety_id}.{extension}'))
+                variety_obj.picture_filename = f'{variety_id}.{extension}'
+            elif picture.filename != '':  # don't flash error if no file was selected
+                flash('Invalid file', 'error')
+        
         db.session.commit()
 
         flash('Variety edited', category='success')

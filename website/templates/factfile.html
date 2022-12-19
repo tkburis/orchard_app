@@ -3,11 +3,12 @@
 {% block title %}{{variety['name']}}{% endblock %}
 
 {% block content %}
-<h1 align="center" class="mb-3">{{variety['name']}}</h1>
-{% if variety['scientific_name'] %}<p class="fst-italic mb-3">{{variety['scientific_name']}}</p>{% endif %}
-{% if variety['intro'] %}<p class="fst-normal mb-3">{{variety['intro']}}</p>{% endif %}
-{% if variety['origin'] %}<p class="fst-normal mb-3">{{variety['origin']}}</p>{% endif %}
-{% if variety['description'] %}<p class="fst-normal mb-3">{{variety['description']}}</p>{% endif %}
+<h1 align="center">{{variety['name']}}</h1>
+{% if variety['scientific_name'] %}<p align="center"><em>{{variety['scientific_name']}}</em></p>{% endif %}
+{% if variety['picture_filename'] %}<center><img src="{{url_for('api_bp.display_image', filename=variety['picture_filename'])}}" style="max-height: 300px;" class="mb-3" /></center>{% endif %}
+{% if variety['intro'] %}<p align="center" class="fst-normal mb-3">{{variety['intro']}}</p>{% endif %}
+{% if variety['origin'] %}<p align="center"><strong>Origin: </strong>{{variety['origin']}}</p>{% endif %}
+{% if variety['description'] %}<p class="mb-3">{{variety['description']}}</p>{% endif %}
 <br />
 <h2>Main characteristics</h2>
 <div class="mb-3">

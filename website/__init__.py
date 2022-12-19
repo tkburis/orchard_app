@@ -2,17 +2,17 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from werkzeug.security import generate_password_hash
-from os.path import join, dirname, abspath, exists
-from os import environ
+import os
 
 db = SQLAlchemy()
-DB_NAME = environ.get('DB_NAME')
+DB_NAME = os.environ.get('DB_NAME')
 
 def create_app():
     app = Flask(__name__)
     app.config.from_mapping(
-        SECRET_KEY=environ.get('SECRET_KEY'),
-        SQLALCHEMY_DATABASE_URI=f'sqlite:///{DB_NAME}'
+        SECRET_KEY=os.environ.get('SECRET_KEY'),
+        SQLALCHEMY_DATABASE_URI=f'sqlite:///{DB_NAME}',
+        UPLOAD_FOLDER=os.path.join(app.instance_path, os.environ.get('UPLOAD_FOLDER')),
     )
 
     db.init_app(app)
@@ -21,10 +21,12 @@ def create_app():
     from .home import home_bp
     from .admin import admin_bp
     from .factfile import factfile_bp
+    from .api import api_bp
 
     app.register_blueprint(home_bp, url_prefix='/')
     app.register_blueprint(admin_bp, url_prefix='/admin/')
     app.register_blueprint(factfile_bp, url_prefix='/factfile/')
+    app.register_blueprint(api_bp, url_prefix='/api/')
     
     from .errors import page_not_found
     
@@ -39,13 +41,16 @@ def create_app():
     @login_manager.user_loader
     def load_user(id):
         return User.query.get(int(id))
+
+    print(app.config['UPLOAD_FOLDER'])
+    os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
     
     return app
 
 def create_database(app):
     from .models import Tree, User, Variety, Characteristics
-    db_path = join(dirname(dirname(abspath(__file__))), 'instance', DB_NAME)
-    if not exists(db_path):
+    db_path = os.path.join(app.instance_path, DB_NAME)
+    if not os.path.exists(db_path):
         with app.app_context():
             db.create_all()
             print('Database created')
@@ -68,7 +73,7 @@ def create_database(app):
             # add_tree(variety_name='Adams Pearmain')
             # add_tree(variety_name='Some other variety')
             
-            admin_user = User(username='admin', password=generate_password_hash(environ.get('ADMIN_PW')))
+            admin_user = User(username='admin', password=generate_password_hash(os.environ.get('ADMIN_PW')))
             db.session.add(admin_user)
             db.session.commit()
             
