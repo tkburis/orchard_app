@@ -10,7 +10,8 @@
             integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
             crossorigin="anonymous"
         />
-        <link href="../static/style.css" rel="stylesheet">
+        <link href="{{ url_for('static', filename='apple.ico') }}"" rel="shortcut icon">
+        <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
     </head>
     <body>
 
@@ -20,7 +21,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <a class="navbar-brand" href="#">
-                    <img src="../static/school-logo.png" alt="School logo" height="30">
+                    <img src="{{ url_for('static', filename='school-logo.png') }}" alt="School logo" height="30">
                 </a>
                 <div class="collapse navbar-collapse" id="navbar">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">

@@ -1,9 +1,11 @@
+from dotenv import load_dotenv
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from werkzeug.security import generate_password_hash
 import os
 
+load_dotenv()
 db = SQLAlchemy()
 DB_NAME = os.environ.get('DB_NAME')
 
@@ -42,7 +44,6 @@ def create_app():
     def load_user(id):
         return User.query.get(int(id))
 
-    print(app.config['UPLOAD_FOLDER'])
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
     
     return app
