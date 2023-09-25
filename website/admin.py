@@ -7,7 +7,7 @@ import os
 
 from .models import Tree, User, Variety, Characteristics
 from . import db
-from .util import add_tree, add_variety
+from .util import add_tree, add_variety, TREE_KEY_NAMES, CHAR_KEY_NAMES
 
 admin_bp = Blueprint('admin_bp', __name__)
 
@@ -28,13 +28,16 @@ def trees():
             tree_obj = Tree.query.get(tree_id)
             
             for k, v in form_data.items():
+                print(v)
                 if k == 'variety_name' and v:
+                    print("ADDED", v)
                     add_variety(v)
                 setattr(tree_obj, k, v)
             db.session.commit()
             flash('Tree edited', category='success')
             
         else:  # add
+            print(form_data['variety_name'])
             add_tree(**form_data)
             flash('Tree added', category='success')
 
@@ -42,7 +45,7 @@ def trees():
     return render_template('trees.html',
                             all_trees=all_trees,
                             keys=keys,
-                            current_user=current_user)
+                            TREE_KEY_NAMES=TREE_KEY_NAMES)
 
 @admin_bp.route('/delete-tree', methods=['POST'])
 @login_required
@@ -109,7 +112,7 @@ def varieties():
                            all_varieties=all_varieties,
                            variety_keys=variety_keys,
                            char_keys=char_keys,
-                           current_user=current_user)
+                           CHAR_KEY_NAMES=CHAR_KEY_NAMES)
 
 @admin_bp.route('/delete-variety', methods=['POST'])
 @login_required
@@ -143,7 +146,7 @@ def login():
         else:
             flash('Username does not exist', category='error')
 
-    return render_template('login.html', current_user=current_user)
+    return render_template('login.html')
 
 @admin_bp.route('/logout')
 @login_required

@@ -17,6 +17,5 @@ def home():
     return render_template('home.html',
                             search_result=search_result,
                             keys=keys,
-                            all_varieties=all_varieties,
-                            current_user=current_user)
+                            all_varieties=all_varieties)
 

@@ -17,8 +17,8 @@
             {% for key in char_keys %}
             {% if key != 'id' %}
             <tr>
-                <th scope="row">{{key}}</th>
-                <td>{% if variety.characteristics[key] %}{{variety.characteristics[key]}}{% else %}-{% endif %}</td>
+                <th scope="row">{{CHAR_KEY_NAMES[key]}}</th>
+                <td>{{variety.characteristics[key] if variety.characteristics[key] else '-'}}</td>
             </tr>
             {% endif %}
             {% endfor %}

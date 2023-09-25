@@ -27,7 +27,7 @@
             {% for key in keys %}
             <tr>
                 <th scope="row">{{key}}</th>
-                <td>{{search_result[key]}}</td>
+                <td>{{search_result[key] if search_result[key] else '-'}}</td>
             </tr>
             {% endfor %}
         </tbody>

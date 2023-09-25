@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, abort
 from flask_login import current_user
 from .models import Variety, Characteristics
+from .util import CHAR_KEY_NAMES
 
 factfile_bp = Blueprint('factfile_bp', __name__)
 
@@ -13,4 +14,4 @@ def factfile(variety_id):
     return render_template('factfile.html',
                            variety=variety_obj,
                            char_keys=char_keys,
-                           current_user=current_user)
+                           CHAR_KEY_NAMES=CHAR_KEY_NAMES)
